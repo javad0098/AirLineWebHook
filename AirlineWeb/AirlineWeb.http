@@ -1,0 +1,2 @@
+GET /weatherforecast/
+Accept: application/json

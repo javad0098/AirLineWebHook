@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webhook Registration</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></head>
+<body>
+    <div class="container">
+        <h1 class="display-3 text-center my-4">Pan Australian Airways</h1>
+        <h3 class="display-5 text-center my-4">Webhook Registration</h3>
+        
+        <div id="alertSuccess" class="alert alert-success">
+            <strong>Success</strong> <label id="successMessage">Webhook Registered</label>
+        </div>
+
+        <div id="alertDanger" class="alert alert-danger">
+            <strong>Danger</strong> <label id="dangerMessage">Please check the log files</label>
+        </div>
+
+        <div id="registration">
+            <div class="form-group">
+                <label for="webhook">Enter your Webhook URI</label>
+                <input class="form-control form-control-lg" type="text" id="webhook" placeholder="Enter URI">
+                <small class="form-text text-muted">Your webhook URI will not be shared</small>
+            </div>
+            <div class="form-group">
+                <label for="webhooktype">Webhook Type</label>
+                <select class="form-control" id="webhooktype">
+                    <option>Price Change</option>
+                    <option>Seat Availability</option>
+                    <option>Flight Delays & Disruptions</option>
+                </select>
+            </div>
+            <div>
+                <button id="register" class="btn btn-primary btn-block" type="submit">Register</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // Get references to the form elements
+    var registerButton = document.getElementById("register");
+    var webhookURI = document.getElementById("webhook");
+    var webhookType = document.getElementById("webhooktype");
+    var successBox = document.getElementById("alertSuccess");
+    var dangerBox = document.getElementById("alertDanger");
+    var dangerMessage = document.getElementById("dangerMessage");
+    var successMessage = document.getElementById("successMessage");
+
+    // Initially hide the success and error messages
+    successBox.style.display = 'none';
+    dangerBox.style.display = 'none';
+
+    // Register button click event
+    registerButton.onclick = async function () {
+        // Input validation: Check if webhook URI is provided
+        if (webhookURI.value === "") {
+            // Display error if the URI is missing
+            dangerMessage.innerHTML = "Please Enter a URI";
+            dangerBox.style.display = 'block';
+        } else {
+            try {
+                // Send POST request to the server to register the webhook
+                const rawResponse = await fetch('https://localhost:5001/api/webhooksubscriptions', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        webhookURI: webhookURI.value,
+                        webhookType: webhookType.value
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                // Parse the response from the server
+                const content = await rawResponse.json();
+
+                // Display success message with the webhook secret
+                successMessage.innerHTML = "Webhook Registered. Please use secret: " + content.secret + " to validate inbound requests.";
+                successBox.style.display = 'block';
+
+                // Hide the error message (if previously shown)
+                dangerBox.style.display = 'none';
+                console.log(content);
+
+            } catch (error) {
+                // Display error message if there's a failure
+                dangerMessage.innerHTML = "An error occurred: " + error.message;
+                dangerBox.style.display = 'block';
+
+                // Hide the success message (if previously shown)
+                successBox.style.display = 'none';
+            }
+        }
+    }
+</script>
+
+</html>

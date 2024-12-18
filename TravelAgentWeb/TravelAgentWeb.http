@@ -1,0 +1,5 @@
+
+GET /weatherforecast/
+Accept: application/json
+
+b96a68c4-8e8a-48cd-97c7-781ea30f9354

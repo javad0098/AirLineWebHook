@@ -1,0 +1,75 @@
+# Root configuration file
+root = true
+
+# General Formatting Rules
+[*.cs]
+indent_style = space                        # Use spaces instead of tabs
+indent_size = 4                             # 4 spaces for indentation
+insert_final_newline = true                 # Ensure a final newline at end of file
+charset = utf-8                             # Use UTF-8 encoding
+end_of_line = lf                            # Use LF line endings (cross-platform)
+trim_trailing_whitespace = true             # Remove trailing whitespace
+
+# Organize Usings
+dotnet_sort_system_directives_first = true  # Place 'System' usings first
+dotnet_separate_import_directive_groups = true  # Separate using directive groups with a newline
+
+# Newline Preferences
+csharp_new_line_before_open_brace = all     # Place braces on a new line
+csharp_new_line_before_else = true          # New line before 'else'
+csharp_new_line_before_catch = true         # New line before 'catch'
+csharp_new_line_before_finally = true       # New line before 'finally'
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true
+csharp_preserve_single_line_blocks = true   # Allow single-line blocks when possible
+
+# Enforce new line between members
+csharp_new_line_between_members = true
+dotnet_diagnostic.csharp_new_line_between_members.severity = warning
+
+# Spacing Rules
+csharp_space_after_cast = true              # Space after type casting
+csharp_space_after_keywords_in_control_flow_statements = true # Space after control keywords
+csharp_space_between_method_declaration_parameter_list_parentheses = false
+csharp_space_between_method_call_parameter_list_parentheses = false
+csharp_space_between_parentheses = false    # No spaces inside parentheses
+
+# Naming Rules
+dotnet_naming_rule.private_fields_with_underscore.symbols = private_fields
+dotnet_naming_rule.private_fields_with_underscore.style = underscore_prefix
+dotnet_naming_rule.private_fields_with_underscore.severity = suggestion
+
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+
+dotnet_naming_style.underscore_prefix.required_prefix = _
+dotnet_naming_style.underscore_prefix.capitalization = camel_case
+
+# Code Style Preferences
+dotnet_style_qualification_for_field = false:suggestion
+dotnet_style_qualification_for_property = false:suggestion
+dotnet_style_qualification_for_method = false:suggestion
+dotnet_style_qualification_for_event = false:suggestion
+
+# Expression-bodied members
+csharp_style_expression_bodied_methods = when_on_single_line:suggestion
+csharp_style_expression_bodied_properties = when_on_single_line:suggestion
+csharp_style_expression_bodied_constructors = when_on_single_line:suggestion
+
+# Null-checking
+csharp_style_throw_expression = true:suggestion
+csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
+
+# Miscellaneous
+dotnet_style_prefer_auto_properties = true:suggestion
+dotnet_style_require_accessibility_modifiers = always
+dotnet_style_readonly_field = true:suggestion
+
+# StyleCop specific
+dotnet_diagnostic.SA1600.severity = none    # Elements should be documented
+dotnet_diagnostic.SA1200.severity = none    # Usings should be placed correctly
+dotnet_diagnostic.SA1516.severity = warning    # Blank lines between methods
+dotnet_diagnostic.SA1633.severity = none       # Ignore file header requirement
+dotnet_separate_import_directive_groups = false #disables the automatic blank line separation between using directive groups
+dotnet_diagnostic.SA1309.severity = none    # Usings should be placed correctly
+dotnet_diagnostic.SA1101.severity = none    # Usings should be placed correctly

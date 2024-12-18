@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  rabbitmq-airlin:
+    image: rabbitmq:3-management
+    container_name: rabbitmq-airlin
+    ports:
+      - "5673:5672"  # Custom RabbitMQ port (default is 5672)
+      - "15673:15672" # Custom RabbitMQ Management Console port (default is 15672)
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    networks:
+      - airlin-net
+
+  sqlserver-airlin:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver-airlin
+    platform: linux/amd64  # Specify platform
+    ports:
+      - "1434:1433"  # Custom SQL Server port (default is 1433)
+    environment:
+      SA_PASSWORD: "P@55770rd"
+      ACCEPT_EULA: "Y"
+    networks:
+      - airlin-net
+
+networks:
+  airlin-net:
+    driver: bridge
